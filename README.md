@@ -12,6 +12,8 @@ Usage: ././split-review.sh
 
 Will create `--split-number` PR reviews in GitHub, each with a PENDING status. Since GitHub doesn't allow multiple reviews with a status of PENDING, you'll need to interactively eyeball and complete each PR review before the script can create the next one. In this sense the script is interactive - it does stuff, you check it out and accept/complete the review and then it continues.
 
+Why not a fully automated script? Becuase even when using this, I still see 502 errors from GitHub's API; but the PR Reviews show up none the less. I prefer semi-automated so that I can cautiously proceed, rather than find I'm spamming reviews with a REQUEST_CHANGES or COMMENT status. 
+
 ## Requirements
 - You'll need a personal access token with repo access in order to access the GitHub v3 API endpoints.
 - Jq on the path
