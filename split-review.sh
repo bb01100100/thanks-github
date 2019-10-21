@@ -56,6 +56,11 @@ done
 
 eval set -- "$PARAMS"
 
+if [ -z "$ORGANISATION" ] || [ -z "$REPO" ] || [ -z "$PR_NUMBER" ] || [ -z "$ORIGINAL_REVIEW_ID" ]; then
+ sh ./$0 -h
+ exit 1
+fi  
+
 echo ""
 echo "================================================================================"
 echo "Carrying out an interactive PR review split, with the following parameters:"
@@ -88,9 +93,6 @@ BASE_REVIEW_URL="https://api.github.com/repos/${ORGANISATION}/${REPO}/pulls/${PR
 
 # Header crap
 AUTH_HEADER="Authorization: token ${TOKEN}"
-ACCEPT_HEADER="Accept: application/vnd.github.comfort-fade-preview+json"
-
-
 
 # New trick; completion generator (compgen) builtin.. nice.
 #if compgen -G "[1-9].json" > /dev/null; then
@@ -184,7 +186,7 @@ for end_idx in $(seq $COMMENTS_PER_REVIEW $COMMENTS_PER_REVIEW $(( $COMMENTS_PER
    echo " Press (capital) P to proceed with creating a new PR review of $COMMENTS_PER_REVIEW comments.."
    read -s -n 1 waiter
    if [ "$waiter" == "P" ]; then
-		#curl -Ss --include -H "${AUTH_HEADER}" -Ss -H "Content-Type: application/json" -d "${DATA}" -XPOST "${URL}"
+		curl -Ss --include -H "${AUTH_HEADER}" -Ss -H "Content-Type: application/json" -d "${DATA}" -XPOST "${URL}"
       echo ""
 		echo "  Ok, check github to see what's happening.. "
       echo "  You should have a new PENDING review."
